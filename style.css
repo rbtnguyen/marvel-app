@@ -1,0 +1,162 @@
+body {
+	padding-top: 50px;
+}
+
+.marvel-nav {
+	background-color: #393937;
+	/*border-bottom: 1px solid rgb(127, 0, 0);*/
+	border-bottom: 1px solid rgba(255, 255, 255, .1);
+	-webkit-background-clip: padding-box; /* for Safari */
+    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+
+}
+
+#marvel-brand {
+	color: #F82B14;
+}
+
+#charselect {
+	width: 100%;
+}
+
+#sidebar {
+	position: fixed;
+	left: 0;
+	width: 300px;
+	height: 100%;
+	z-index: 2;
+	background-color: white;
+	text-align: center;
+
+}
+
+#main {
+	margin-left: 300px;
+	background-color: #222222;
+	height: 100vh;
+	overflow: scroll;
+}
+
+#comic-btn {
+	margin-top: 20px;
+}
+
+#event-btn {
+	margin-top: 20px;
+}
+
+#comic_column {
+	background-color: #222222;
+	height: 100vh;
+	overflow: scroll;
+	padding: 0;
+}
+
+.char-name {
+	color: white;
+}
+
+.char-img {
+	width: 300px;
+	text-align: center;
+	margin: 10px 0;
+	border-radius: 50%;
+	-webkit-box-shadow: 1px 1px 20px 0px rgba(48,48,48,0.75);
+	-moz-box-shadow: 1px 1px 20px 0px rgba(48,48,48,0.75);
+	box-shadow: 1px 1px 20px 0px rgba(48,48,48,0.75);
+}
+
+.char-desc {
+	color: white;
+}
+
+.character-div {
+	text-align: center;
+	margin-bottom: 25px;
+}
+
+.comic_list, .event_list {
+	list-style-type: none;
+	padding: 0;
+	width: 100%;
+}
+
+.comic_img, .event_img {
+	/*max-width: 100%;*/
+	width: 100%;
+	margin: 0px auto;
+	-webkit-opacity: 0.5;
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+	-webkit-transition: all .75s ease;
+	-moz-transition: all .75s ease;
+	-ms-transition: all .75s ease;
+	-o-transition: all .75s ease;
+	transition: all .75s ease;
+	background-color: #2d2527;
+	-webkit-transform: scale(1.03,1.03);
+	-moz-transform: scale(1.03,1.03);
+	-moz-transition-timing-function: ease-out;
+	-moz-transition-duration: 250ms;
+	overflow: hidden;
+	z-index: 8888;
+}
+
+.comic_img:hover, .event_img:hover {
+	margin: 0px auto;
+	-webkit-opacity: 1;
+	-moz-opacity: 1;
+	opacity: 1;
+	-webkit-transition: all .75s ease;
+	-moz-transition: all .75s ease;
+	-ms-transition: all .75s ease;
+	-o-transition: all .75s ease;
+	transition: all .75s ease;
+	background-color: #131313;
+	-webkit-transform: scale(1.00,1.00) rotate(.0deg);
+	-moz-transform: scale(1.00,1.00) rotate(.0deg);
+	-moz-transition-timing-function: ease-out;
+	-moz-transition-duration: 150ms;
+	overflow: hidden;
+	z-index: 8888;
+}
+
+.comic_li, .event_li {
+	/*margin: 10px auto;*/
+	/*text-align: center;*/
+	/*border: 1px solid black;*/
+	color: white;
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+
+}
+
+.button-div {
+/*	margin: 0 auto;
+	text-align: */
+	margin-bottom: 8px;
+}
+
+.action-btns {
+	width: 150px;
+}
+
+@media screen and (max-width: 700px) {
+
+	#sidebar {
+		position: static;
+		float: left;
+		width: 100%;
+		top: 50px;
+		left: 0;
+		height: 250px;
+	}
+
+	#main {
+		float: left;
+		margin: 0;
+		width: 100%;
+	}
+
+}

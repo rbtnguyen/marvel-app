@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html ng-app="marvelApp">
+<head>
+	<meta charset="utf-8">
+	<title>MARVEL API Hero</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+	<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body ng-controller="MarvelCtrl">
+	<!-- Just the standard bootstrap navbar, maybe but search bar up here later -->
+	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse marvel-nav" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="http://nguyenbinh.me/marvel"><span id="marvel-brand" >Marvel</span> API Hero</a>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Create Sidebar for character select -->
+	<div class="container-fluid" id="sidebar">
+		<h4>Select a Character</h4>
+		<hr />
+		<!-- Use ng-repeat to set select options and change angular character model based on selection. Run update function when select changes -->
+		<select id="charselect" class="form-control" ng-model="character" ng-change="update()">
+			<option ng-repeat="c in options" value="{{c.id}}">{{c.name}}</option>
+		</select>
+		<hr />
+		<p><a href="http://nguyenbinh.me">By Binh Nguyen</a></p>
+		<p>Data provided by Marvel. © 2014 Marvel</p>
+		<p><a href="http://developer.marvel.com/">Marvel Developer Portal</a></p>
+	</div>
+
+	
+	<div class="container-fluid" id="main">
+		<div class="row">
+			<!-- Create character div returning name, picture and description and button functions for more info-->
+			<div class="col-md-7 character-div"> 
+				<h1 class="char-name">{{ result.data.results[0].name }}</h1>
+				<img class="char-img" ng-show="result" ng-src="{{ result.data.results[0].thumbnail.path }}.{{result.data.results[0].thumbnail.extension }}">
+				<p class="char-desc">{{ result.data.results[0].description }}</p>
+				
+				<!-- Create buttons that provide additional details on click -->
+				<div class="button-div" ng-show="result">
+					<button id="comic-btn" ng-click="getComics()" class="btn btn-lg btn-primary action-btns"><span class="glyphicon glyphicon-book" ></span> Comics</button>&nbsp;
+					<button id="event-btn" ng-click="getEvents()" class="btn btn-lg btn-danger action-btns"><span class="glyphicon glyphicon-fire" ></span> Events</button>
+				</div>
+				<div class="button-div" ng-show="result">
+					<a target="_blank" href="{{ result.data.results[0].urls[0].url}}" ><button id="detail-btn" class="btn btn-lg btn-success action-btns"><span class="glyphicon glyphicon-th-list" ></span> Details</button></a>&nbsp;
+					<a target="_blank" href="{{ result.data.results[0].urls[1].url }}" ><button href="http://marvel.com" id="wiki-btn" class="btn btn-lg btn-warning action-btns"><span class="glyphicon glyphicon-user" ></span> Wiki</button></a>
+				</div>
+
+			</div>
+			<!-- Create column that returns and shows comics and events if requested -->
+			<!-- Use ng-show to only show if request made -->
+			<div class="col-md-5" id="comic_column">
+				<ul ng-show="comics_show" class="comic_list">
+					<li class="comic_li" ng-repeat="comic in comicslist" data-title='<a href="{{ comic.urls[0].url }}">{{ comic.title }} </a>' data-container="body" data-toggle="popover" data-placement="left" data-content="{{ comic.description }}">
+						<a target="_blank" href="{{ comic.urls[0].url }}" class="comic_link">
+							<img class="comic_img" ng-src="{{ comic.thumbnail.path}}.{{ comic.thumbnail.extension }}">
+						</a>
+					</li>
+				</ul>
+				<ul ng-show="events_show" class="event_list">
+					<li class="event_li" ng-repeat="event in eventsarray" data-title='<a href="{{ event.urls[0].url }}">{{ event.title }} </a>' data-container="body" data-toggle="popover" data-placement="left" data-content="{{ event.description }}">
+						<a target="_blank" href="{{ event.urls[0].url }}" class="event_link">
+							<img class="event_img" ng-src="{{ event.thumbnail.path}}.{{ event.thumbnail.extension }}">
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script src="app.js"></script>
+	<script src="jq_functions.js"></script>
+</body>
+</html>
