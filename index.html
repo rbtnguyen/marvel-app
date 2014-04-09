@@ -29,7 +29,7 @@
 		<hr />
 		<!-- Use ng-repeat to set select options and change angular character model based on selection. Run update function when select changes -->
 		<select id="charselect" class="form-control" ng-model="character" ng-change="update()">
-			<option ng-repeat="c in options" value="{{c.id}}">{{c.name}}</option>
+			<option ng-repeat="c in options | orderBy: 'name'" value="{{c.id}}">{{c.name}}</option>
 		</select>
 		<hr />
 		<p><a href="http://nguyenbinh.me">By Binh Nguyen</a></p>
@@ -48,11 +48,11 @@
 				
 				<!-- Create buttons that provide additional details on click -->
 				<div class="button-div" ng-show="result">
-					<button id="comic-btn" ng-click="getComics()" class="btn btn-lg btn-primary action-btns"><span class="glyphicon glyphicon-book" ></span> Comics</button>&nbsp;
+					<button id="comic-btn" ng-click="getComics()" class="btn btn-lg btn-primary action-btns"><span class="glyphicon glyphicon-book" ></span> Comics</button>
 					<button id="event-btn" ng-click="getEvents()" class="btn btn-lg btn-danger action-btns"><span class="glyphicon glyphicon-fire" ></span> Events</button>
 				</div>
 				<div class="button-div" ng-show="result">
-					<a target="_blank" href="{{ result.data.results[0].urls[0].url}}" ><button id="detail-btn" class="btn btn-lg btn-success action-btns"><span class="glyphicon glyphicon-th-list" ></span> Details</button></a>&nbsp;
+					<a target="_blank" href="{{ result.data.results[0].urls[0].url}}" ><button id="detail-btn" class="btn btn-lg btn-success action-btns"><span class="glyphicon glyphicon-th-list" ></span> Details</button></a>
 					<a target="_blank" href="{{ result.data.results[0].urls[1].url }}" ><button href="http://marvel.com" id="wiki-btn" class="btn btn-lg btn-warning action-btns"><span class="glyphicon glyphicon-user" ></span> Wiki</button></a>
 				</div>
 

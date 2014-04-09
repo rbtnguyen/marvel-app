@@ -140,6 +140,9 @@ body {
 
 .action-btns {
 	width: 150px;
+	margin-right: 2px;
+	margin-left: 2px;
+
 }
 
 @media screen and (max-width: 700px) {
@@ -157,6 +160,27 @@ body {
 		float: left;
 		margin: 0;
 		width: 100%;
+	}
+
+}
+
+@media screen and (max-width: 400px) {
+	.button-div {
+		margin: 0;
+	}
+
+	#event-btn, 
+	#comic-btn {
+		margin: 0px;
+		margin-bottom: 5px;
+	}
+
+	.char-img {
+		max-width: 100%;
+	}
+	.action-btns {
+		width: 80%;
+		margin: 0 0 5px 0;
 	}
 
 }

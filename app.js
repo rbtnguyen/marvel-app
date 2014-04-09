@@ -1,13 +1,68 @@
 // API Keys, hide when pushing to repo, move to server-side
 // Documentation for Marvel API can be found here: http://developer.marvel.com/documentation/getting_started
 var PRIV_KEY = "";
-var API_KEY = "";
+var API_KEY = "a1638f879158c3cc4ee8b34d74fa7783";
 
 // Initializing angular module
 var marvelApp = angular.module('marvelApp', []);
 
 // Creating main controller, considering creating multiple controllers later, including $http module to make http requests in angular
 marvelApp.controller('MarvelCtrl', ['$scope', '$http', function($scope, $http){
+
+	// Create update function that will make a request about the character and return data
+
+	function urlMake(starturl) {
+		// var API_KEY = "a1638f879158c3cc4ee8b34d74fa7783";
+		var ts = new Date().getTime(); //Creating timestamp
+		var hash = CryptoJS.MD5(ts + PRIV_KEY + API_KEY); // Creating hash of data, as required by the API
+		return starturl + "?ts=" + ts + "&apikey=" + API_KEY + "&hash=" + hash;
+	};
+
+	$scope.update = function() {
+		// Construct url to make API call
+		var baseurl = "http://gateway.marvel.com:80/v1/public/characters/" + $scope.character;
+		var url = urlMake(baseurl);
+		// Making request to server for all character information based on unique id
+		$http({method: 'GET', url: url, cache: true}).success(function(data){
+			$scope.result = data; // Saving result in result variable which will be available in the view
+		});
+	};
+
+	// Creating function to get comics data based on character chosen
+	$scope.getComics = function() {
+		$scope.events_show = false; // Setting scope variables for ng-show in the view
+		$scope.comics_show = true;
+		var baseurl = $scope.result.data.results[0].comics.collectionURI;
+		// comicsUrl += "?ts=" + ts + "&apikey=" + API_KEY + "&hash=" + hash;
+		urlMake(baseurl, ts, API_KEY, hash);
+
+		$http({method: 'GET', url: url, cache: true}).success(function(comicdata){
+			$scope.comicresult = comicdata;
+			// console.log(comicdata); For debugging
+			$scope.comicslist = comicdata.data.results;
+			
+
+		});
+	};
+
+	// Creating function to get events data based on character chosen
+	$scope.getEvents = function() {
+		$scope.comics_show = false; // Setting scope variables for ng-show in the view
+		$scope.events_show = true;
+		baseurl = "http://gateway.marvel.com:80/v1/public/characters/"+$scope.character+"/events?orderBy=modified";
+		ts = new Date().getTime();
+		hash = CryptoJS.MD5(ts + PRIV_KEY + API_KEY);
+		eventsUrl += "&ts=" + ts + "&apikey=" + API_KEY + "&hash=" + hash;
+		// console.log(eventsUrl); For debugging
+
+		$http({method: 'GET', url: eventsUrl, cache: true}).success(function(eventdata){
+			$scope.eventresult = eventdata;
+			$scope.eventsarray = eventdata.data.results; 
+			// console.log(eventdata); For debugging
+
+		});
+
+	}
 
 	// Create Array of Characters, refactor later to Search with query filter
 	$scope.options = [
@@ -40,61 +95,6 @@ marvelApp.controller('MarvelCtrl', ['$scope', '$http', function($scope, $http){
 		{name: "Galactus", id: 1009312},
 		{name: "Silver Surfer", id: 1009592}
 	];
-
-	// Create update function that will make a request about the character and return data
-
-	$scope.update = function() {
-		// Construct url to make API call
-		var charUrl = "http://gateway.marvel.com:80/v1/public/characters/"
-		var ts = new Date().getTime(); //Creating timestamp
-		var hash = CryptoJS.MD5(ts + PRIV_KEY + API_KEY); // Creating hash of data, as required by the API
-		charUrl += $scope.character + "?ts=" + ts + "&apikey=" + API_KEY + "&hash=" + hash;
-		// console.log(charUrl); Uncomment for debugging purposes
-
-		// Making request to server for all character information based on unique id
-		$http({method: 'GET', url: charUrl, cache: true}).success(function(data){
-			$scope.result = data; // Saving result in result variable which will be available in the view
-			// console.log(data); Uncomment for debugging
-		});
-
-	};
-
-	// Creating function to get comics data based on character chosen
-	$scope.getComics = function() {
-		$scope.events_show = false; // Setting scope variables for ng-show in the view
-		$scope.comics_show = true;
-		var comicsUrl = $scope.result.data.results[0].comics.collectionURI;
-		var ts = new Date().getTime();
-		var hash = CryptoJS.MD5(ts + PRIV_KEY + API_KEY);
-		comicsUrl += "?ts=" + ts + "&apikey=" + API_KEY + "&hash=" + hash;
-
-		$http({method: 'GET', url: comicsUrl, cache: true}).success(function(comicdata){
-			$scope.comicresult = comicdata;
-			// console.log(comicdata); For debugging
-			$scope.comicslist = comicdata.data.results;
-			
-
-		});
-	};
-
-	// Creating function to get events data based on character chosen
-	$scope.getEvents = function() {
-		$scope.comics_show = false; // Setting scope variables for ng-show in the view
-		$scope.events_show = true;
-		var eventsUrl = "http://gateway.marvel.com:80/v1/public/characters/"+$scope.character+"/events?orderBy=modified";
-		var ts = new Date().getTime();
-		var hash = CryptoJS.MD5(ts + PRIV_KEY + API_KEY);
-		eventsUrl += "&ts=" + ts + "&apikey=" + API_KEY + "&hash=" + hash;
-		// console.log(eventsUrl); For debugging
-
-		$http({method: 'GET', url: eventsUrl, cache: true}).success(function(eventdata){
-			$scope.eventresult = eventdata;
-			$scope.eventsarray = eventdata.data.results; 
-			// console.log(eventdata); For debugging
-
-		});
-
-	}
 
 	// console.log($scope.character); For debugging
 }]);
